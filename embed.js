@@ -312,12 +312,7 @@
                     y: y,
                     text: commentText,
                     resolved: false,
-                    selection: {
-                        x: selectionData.x,
-                        y: selectionData.y,
-                        width: selectionData.width,
-                        height: selectionData.height
-                    }
+                    selection: selectionData
                 };
                 console.log('Saving new comment:', newComment);
                 comments.push(newComment);
@@ -351,6 +346,7 @@
             !e.target.closest('.comment-box') && 
             !isSelecting && 
             !isHandlingSelection) {
+            
             // Simple click (not drag) - show comment box directly
             showCommentBox(e.clientX, e.clientY);
         }
@@ -535,7 +531,6 @@
             // Store initial positions
             initialX = parseInt(element.style.left);
             initialY = parseInt(element.style.top);
-            console.log('Drag start - Initial positions:', { initialX, initialY });
             
             // Get the mouse cursor position at startup
             pos3 = e.clientX;
@@ -547,11 +542,13 @@
         
         function elementDrag(e) {
             e.preventDefault();
+            
             // Calculate the new cursor position
             pos1 = pos3 - e.clientX;
             pos2 = pos4 - e.clientY;
             pos3 = e.clientX;
             pos4 = e.clientY;
+            
             // Set the element's new position
             element.style.top = (element.offsetTop - pos2) + "px";
             element.style.left = (element.offsetLeft - pos1) + "px";
@@ -573,26 +570,14 @@
                     const deltaX = newX - initialX;
                     const deltaY = newY - initialY;
                     
-                    console.log('Drag end - Positions:', {
-                        initial: { x: initialX, y: initialY },
-                        new: { x: newX, y: newY },
-                        delta: { x: deltaX, y: deltaY }
-                    });
-                    
                     // Update comment position
                     comments[commentIndex].x = newX;
                     comments[commentIndex].y = newY;
                     
                     // If there's selection data, update its position
                     if (comments[commentIndex].selection) {
-                        const oldSelection = { ...comments[commentIndex].selection };
                         comments[commentIndex].selection.x += deltaX;
                         comments[commentIndex].selection.y += deltaY;
-                        console.log('Selection position update:', {
-                            old: oldSelection,
-                            new: comments[commentIndex].selection,
-                            delta: { x: deltaX, y: deltaY }
-                        });
                     }
                     
                     saveComments();
