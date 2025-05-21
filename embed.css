@@ -1,0 +1,351 @@
+/* Base styles and variables */
+:root {
+    --primary-color: #5e97aa;
+    --primary-hover: color-mix(in srgb, var(--primary-color) 85%, black);
+    --primary-light: color-mix(in srgb, var(--primary-color) 15%, transparent);
+    --primary-shadow: color-mix(in srgb, var(--primary-color) 30%, transparent);
+    --success-color: #81C88A;
+    --success-hover: color-mix(in srgb, var(--success-color) 85%, black);
+    --bg-dark: #2C2C2C;
+    --border-dark: #434343;
+    --bg-light: #fff;
+    --border-light: #ccc;
+    --text-light: #fff;
+    --text-dark: #000;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Toolbox */
+.toolboxContainer {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--bg-dark);
+    padding: 7px;
+    border-radius: 14px;
+    border: 1px solid var(--border-dark);
+    z-index: 10000;
+    box-sizing: border-box;
+}
+
+.toolboxContainer ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 6px;
+}
+
+.toolboxContainer ul li {
+    margin: 0;
+}
+
+.toolboxContainer ul li button {
+    background-color: transparent;
+    color: var(--text-light);
+    cursor: pointer;
+    border-radius: 7px;
+    padding: .5rem;
+    transition: background-color 0.1s;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    border: 3px solid transparent;
+    height: 100%;
+}
+
+.toolboxContainer ul li button:hover,
+.toolboxContainer ul li button.active {
+    background-color: var(--primary-hover);
+}
+
+/* Comment Box */
+.comment-box {
+    position: fixed;
+    width: 340px;
+    background-color: var(--bg-light);
+    border: 1.5px solid var(--primary-color);
+    border-radius: 10px;
+    padding: 18px 18px 14px 18px;
+    box-shadow: var(--shadow);
+    z-index: 9998;
+    animation: fadeIn 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.comment-input-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.comment-input-container input[type="text"] {
+    width: 100%;
+    min-height: 38px;
+    border: 1.5px solid var(--primary-color);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 1rem;
+    margin-bottom: 0;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.comment-input-container input[type="text"]:focus {
+    border-color: var(--primary-hover);
+}
+
+.comment-actions-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.submit-btn, .cancel-btn {
+    padding: 8px 18px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.submit-btn {
+    background: var(--primary-color);
+    color: var(--text-light);
+}
+.submit-btn:hover {
+    background: var(--primary-hover);
+}
+
+.cancel-btn {
+    background: #f5f5f5;
+    color: #333;
+    border: 1.5px solid #ddd;
+}
+.cancel-btn:hover {
+    background: #e5e5e5;
+}
+
+/* Comment Icon */
+.comment-icon {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 9997;
+    font-size: 14px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.comment-icon::before {
+    content: '';
+    width: 1rem;
+    height: 100%;
+    position: absolute;
+    right: -1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.comment-icon:hover::before {
+    pointer-events: all;
+}
+
+.comment-icon:hover .comment-icon-icon {
+    transform: scale(1.1);
+}
+
+.comment-icon:hover .comment-tooltip,
+.comment-icon:hover .selection-highlight {
+    display: flex;
+    opacity: 1;
+}
+
+.comment-icon-icon {
+    width: 24px;
+    height: 24px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    border-bottom-right-radius: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: .2s;
+}
+
+/* Comment Tooltip */
+.comment-tooltip {
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: var(--shadow);
+    width: 250px;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 9999;
+    display: none;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--text-dark);
+}
+
+.comment-text {
+    flex: 1;
+    cursor: text;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: system-ui;
+}
+
+.edit-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+}
+
+.edit-comment-input {
+    flex: 1;
+    font-size: inherit;
+    outline: none;
+    padding: 0;
+    border: none;
+    background: transparent;
+    overflow: hidden;
+}
+
+.save-edit-btn {
+    flex-shrink: 0;
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    border: none;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.save-edit-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+/* Comment Actions */
+.comment-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.resolve-btn {
+    background-color: var(--success-color);
+    color: var(--text-light);
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 12px;
+    aspect-ratio: 1;
+    height: 24px;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.resolve-btn:hover {
+    background-color: var(--success-hover);
+}
+
+/* Selection Styles */
+.selection-box {
+    position: absolute;
+    border: 2px dashed var(--primary-color);
+    border-radius: 5px;
+    background-color: var(--primary-light);
+    box-shadow: 0 0 0 1px var(--primary-shadow);
+    z-index: 9996;
+    pointer-events: none;
+}
+
+.selection-highlight {
+    position: absolute;
+    outline: 2px dashed var(--primary-color);
+    border-radius: 5px;
+    background-color: var(--primary-light);
+    box-shadow: 0 0 0 1px var(--primary-shadow);
+    z-index: 9995;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.selection-highlight.temp {
+    opacity: 1;
+    pointer-events: none;
+}
+
+/* Cursor Icon */
+#cursorIcon {
+    pointer-events: none;
+    z-index: 9999;
+    width: 24px;
+    height: 24px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    border-bottom-right-radius: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseAnimation {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(70, 70, 141, 0.7);
+    }
+    50% {
+        transform: scale(1.2);
+        box-shadow: 0 0 0 10px rgba(70, 70, 141, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(70, 70, 141, 0);
+    }
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.comment-icon.new-comment-animation {
+    animation: pulseAnimation 1s ease-in-out;
+}
